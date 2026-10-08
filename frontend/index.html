@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Netflix Recommender</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="finder">
+    <a class="brand" href="/">Netflix Recommender</a>
+    <div class="finder-main">
+      <h1>Pick a movie you liked. We'll find ten that share its people and genres.</h1>
+      <form id="search" class="search" role="search" autocomplete="off">
+        <div class="combo">
+          <input id="q" type="text" role="combobox" aria-label="Movie title" aria-expanded="false" aria-controls="suggestions" aria-autocomplete="list" placeholder="Type a title, e.g. The Dark Knight" maxlength="80">
+          <ul id="suggestions" role="listbox" hidden></ul>
+        </div>
+        <button type="submit" class="btn">Find similar movies</button>
+      </form>
+      <p class="examples">Try
+        <button type="button" class="link" data-title="inception">Inception</button>
+        <button type="button" class="link" data-title="titanic">Titanic</button>
+        <button type="button" class="link" data-title="avatar">Avatar</button>
+        <button type="button" class="link" data-title="the avengers">The Avengers</button>
+      </p>
+      <p id="hint" class="hint" hidden>Posters, cast and live reviews are off. Add a TMDB key to <code>.env</code> to turn them on.</p>
+    </div>
+  </header>
+
+  <div class="layout">
+  <aside id="years" class="years" aria-label="Browse by year">
+    <h2>Browse by year</h2>
+    <p id="years-note" class="note" hidden>Year browsing needs a TMDB key. Add one to <code>.env</code> and restart.</p>
+    <ul id="year-list"></ul>
+  </aside>
+
+  <main>
+    <div id="status" role="status" aria-live="polite"></div>
+    <div id="result" hidden>
+      <section id="detail" class="detail" aria-label="Movie details"></section>
+      <section id="recs" aria-label="Recommendations"></section>
+      <section id="reviews" aria-label="Reviews"></section>
+    </div>
+
+    <section class="tester" aria-labelledby="tester-h">
+      <h3 id="tester-h">Test the review model</h3>
+      <p class="note">Paste any movie review. The Naive Bayes model trained on 6,900 labelled sentences says whether it reads as good or bad.</p>
+      <form id="tester-form">
+        <label class="sr" for="tester-text">Review text</label>
+        <textarea id="tester-text" rows="3" maxlength="5000" placeholder="The acting was great but the ending fell flat."></textarea>
+        <button type="submit" class="btn">Check review</button>
+      </form>
+      <div id="tester-out" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+  </div>
+
+  <footer>Recommendations use cosine similarity on director, cast and genres. Movie data and images from TMDB.</footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>
